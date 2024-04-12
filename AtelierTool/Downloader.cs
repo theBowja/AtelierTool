@@ -9,15 +9,17 @@ public class Downloader : IDisposable
     private readonly Catalog _catalog;
     private readonly string _outputPath;
     private readonly HttpClient _client;
+    private readonly HashSet<string> _bundleNames;
 
     private readonly ConcurrentBag<Bundle> _failedBundles;
     private SemaphoreSlim _semaphore;
     private long _finishedAssetCount;
 
-    public Downloader(Catalog catalog, string outputPath, int concurrent, string url)
+    public Downloader(Catalog catalog, string outputPath, int concurrent, string url, string[] bundleNames)
     {
         _catalog = catalog;
         _outputPath = outputPath;
+        _bundleNames = new HashSet<string>(bundleNames);
         _semaphore = new SemaphoreSlim(concurrent, concurrent);
         _failedBundles = new ConcurrentBag<Bundle>();
 
@@ -31,6 +33,12 @@ public class Downloader : IDisposable
     public async Task Download()
     {
         var bundles = _catalog.FileCatalog.Bundles;
+
+        // filter bundles by provided bundlenames
+        if (_bundleNames.Count != 0) // Android
+        {
+            bundles = bundles.Where(x => _bundleNames.Contains(x.RelativePath)).ToList();
+        }
 
         foreach (var dir in bundles
                      .Where(x => x.RelativePath.Contains('/'))

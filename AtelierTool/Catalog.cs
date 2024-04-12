@@ -11,7 +11,7 @@ public record Catalog(FileCatalog FileCatalog, string MainAssetLabel, string Uni
         catalog.EnsureSuccessStatusCode();
 
         var catalogData = await catalog.Content.ReadAsStringAsync();
-        await File.WriteAllTextAsync(Path.Join(outputPath, "catalog.json"), catalogData);
+        //await File.WriteAllTextAsync(Path.Join(outputPath, "catalog.json"), catalogData);
 
         return JsonSerializer.Deserialize<Catalog>(catalogData, new JsonSerializerOptions() {PropertyNamingPolicy = new UnderscoreNamingPolicy()})
                ?? throw new InvalidOperationException("Failed to deserialize remote catalog.");

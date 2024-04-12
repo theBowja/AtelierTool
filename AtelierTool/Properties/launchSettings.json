@@ -2,7 +2,10 @@
   "profiles": {
     "AtelierTool": {
       "commandName": "Project",
-      "commandLineArgs": "download 1695186894_yFRlDhTt4xOHNPdw"
+      "commandLineArgsa": "extract-masterdata D:/Workspace/Resleriana/AtelierTool/AtelierTool/bin/Debug/net7.0/downloaded.masterdata",
+      "commandLineArgss": "download-bundles 1707361200_cUPCDx8SD1mJhqrf",
+      "commandLineArgs": "download-bundles 1707361200_cUPCDx8SD1mJhqrf -s Global",
+      "asdfnativeDebugging": true
     }
   }
 }
